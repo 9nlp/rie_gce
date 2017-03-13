@@ -1,1 +1,2 @@
-# rie_gce
+# Regulatory Interaction and Growth Condition Extraction System (RIE-GCE)
+Automatic RIE-GCE system based on different text filtering steps, from which underlying structural units such as predicates are extracted. These predicates in turn are taken as semi-structured information whose parts are represented as contextualized vectors (word embeddings) that are fed to a classifier. This classifier separates types of growths, regulatory interactions, as well as the biological entities involved.
