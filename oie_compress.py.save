@@ -1,0 +1,43 @@
+# 1.0	much	be paid on	insurance claim
+# 1.0	much	is	paid
+# 1.0	much	is	paid on insurance claim
+# 1.0	much	be	paid
+# -----------------------------------------------------
+# 1.0	channel	joining	two bodies
+# 1.0	channel	joining	two larger bodies of water
+# 1.0	channel	joining	two larger bodies
+# 1.0	channel	joining	two bodies of water
+# 1.0	narrow channel	joining	two bodies of water
+# 1.0	narrow channel	joining	two larger bodies
+# 1.0	narrow channel	joining	two larger bodies of water
+# 1.0	narrow channel	joining	two bodies
+
+import argparse
+import fasttext
+
+from pdb import set_trace  as st
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--oie", help="Input file containing openIE triplets to be compresses.", required=True)
+parser.add_argument("--o", help="Output file for compressed openIE triplets.")
+args = parser.parse_args()
+
+with open(args.oie) as f:
+    triplets=[line.strip().split("\t")[1:] for line in f.readlines()]
+
+if len(triplets[0]) < 3:
+    print "No triplets in file %s" % args.oie
+    exit()
+
+trip_dict={}
+
+trip_dict["NPa"]=set([row[0] for row in triplets])
+trip_dict["VP"]=set([row[1] for row in triplets])
+trip_dict["NPb"]=set([row[2] for row in triplets])
+
+# According to 
+for t in trip_dict: 
+    #trip_dict[t]=(trip_dict[t], max(trip_dict[t],key=len))
+    trip_dict[t]=max(trip_dict[t],key=len)
+
+print trip_dict
