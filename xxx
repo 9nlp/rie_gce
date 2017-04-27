@@ -1,0 +1,60 @@
+[['act', 'making', 'something new'], ['human act', 'making', 'something'], ['act', 'making', 'something'], ['human act', 'making', 'something new']]
+{'VP': [['making']], 'NPa': [['human', 'act'], ['act']], 'NPb': [['new', 'something'], ['something']]}
+{'VP': set(['making']), 'NPa': set(['human', 'act']), 'NPb': set(['new', 'something'])}
+[['act', 'making', 'something new'], ['human act', 'making', 'something'], ['act', 'making', 'something'], ['human act', 'making', 'something new']]
+{'VP': [['making']], 'NPa': [['human', 'act'], ['act']], 'NPb': [['new', 'something'], ['something']]}
+{'VP': set(['making']), 'NPa': set(['human', 'act']), 'NPb': set(['new', 'something'])}
+[['international transactions', 'take', 'place'], ['one currency', 'is exchanged for', 'another'], ['currency', 'is', 'by which exchanged for another'], ['one currency', 'is', 'by which exchanged for another'], ['transactions', 'take', 'place']]
+{'VP': [[], ['exchanged', 'for'], ['take']], 'NPa': [['currency', 'one'], ['transactions'], ['international', 'transactions'], ['currency']], 'NPb': [['exchanged', 'for', 'by', 'another', 'which'], ['place'], ['another']]}
+{'VP': set([]), 'NPa': set(['currency', 'transactions', 'international', 'one']), 'NPb': set(['exchanged', 'another', 'for', 'place', 'which', 'by'])}
+[['much', 'be paid on', 'insurance claim'], ['much', 'is', 'paid'], ['much', 'is', 'paid on insurance claim'], ['much', 'be', 'paid']]
+{'VP': [['be'], [], ['be', 'paid', 'on']], 'NPa': [['much']], 'NPb': [['on', 'insurance', 'paid', 'claim'], ['paid'], ['claim', 'insurance']]}
+{'VP': set(['be']), 'NPa': set(['much']), 'NPb': set(['on', 'claim', 'paid', 'insurance'])}
+[['ball', 'is', 'in which passed back'], ['ball', 'is', 'in which passed'], ['ball', 'is', 'passed'], ['ball', 'is', 'passed back']]
+{'VP': [[]], 'NPa': [['ball']], 'NPb': [['back', 'passed'], ['which', 'passed', 'in'], ['passed'], ['in', 'back', 'passed', 'which']]}
+{'VP': set([]), 'NPa': set(['ball']), 'NPb': set(['passed', 'which', 'in', 'back'])}
+[['person', 'can', 'where can communicated with'], ['person', 'can', 'can communicated'], ['person', 'can', 'where can communicated'], ['person', 'can', 'can communicated with']]
+{'VP': [['can']], 'NPa': [['person']], 'NPb': [['where', 'can', 'communicated'], ['can', 'communicated'], ['with', 'can', 'communicated'], ['where', 'with', 'can', 'communicated']]}
+{'VP': set(['can']), 'NPa': set(['person']), 'NPb': set(['can', 'with', 'where', 'communicated'])}
+[['channel', 'joining', 'two bodies'], ['channel', 'joining', 'two larger bodies of water'], ['channel', 'joining', 'two larger bodies'], ['channel', 'joining', 'two bodies of water'], ['narrow channel', 'joining', 'two bodies of water'], ['narrow channel', 'joining', 'two larger bodies'], ['narrow channel', 'joining', 'two larger bodies of water'], ['narrow channel', 'joining', 'two bodies']]
+{'VP': [['joining']], 'NPa': [['narrow', 'channel'], ['channel']], 'NPb': [['larger', 'two', 'bodies'], ['water', 'two', 'bodies'], ['water', 'larger', 'two', 'bodies'], ['two', 'bodies']]}
+{'VP': set(['joining']), 'NPa': set(['narrow', 'channel']), 'NPb': set(['larger', 'two', 'water', 'bodies'])}
+[['casual game', 'throwing back', 'ball'], ['game', 'throwing back', 'ball'], ['casual game', 'throwing', 'ball'], ['game', 'throwing', 'ball']]
+{'VP': [['throwing'], ['throwing', 'back']], 'NPa': [['game', 'casual'], ['game']], 'NPb': [['ball']]}
+{'VP': set(['throwing']), 'NPa': set(['game', 'casual']), 'NPb': set(['ball'])}
+[['area', 'set for', 'particular purpose'], ['area', 'set aside for', 'particular purpose'], ['area', 'set for', 'purpose'], ['area', 'set aside for', 'purpose']]
+{'VP': [['set', 'aside', 'for'], ['set', 'for']], 'NPa': [['area']], 'NPb': [['purpose', 'particular'], ['purpose']]}
+{'VP': set(['set', 'for']), 'NPa': set(['area']), 'NPb': set(['purpose', 'particular'])}
+[['underground tunnels', 'used by', 'rabbits'], ['tunnels', 'used by', 'rabbits'], ['connected tunnels', 'used by', 'rabbits'], ['connected underground tunnels', 'used by', 'rabbits']]
+{'VP': [['used', 'by']], 'NPa': [['underground', 'connected', 'tunnels'], ['underground', 'tunnels'], ['tunnels'], ['connected', 'tunnels']], 'NPb': [['rabbits']]}
+{'VP': set(['used', 'by']), 'NPa': set(['connected', 'underground', 'tunnels']), 'NPb': set(['rabbits'])}
+[['guess', 'is in', 'hope of favorable outcome'], ['risk', 'guess in', 'hope of outcome'], ['risk', 'guess in', 'hope of favorable outcome'], ['risk', 'guess in', 'hope']]
+{'VP': [['in'], ['guess', 'in']], 'NPa': [['guess'], ['risk']], 'NPb': [['outcome', 'favorable', 'hope'], ['outcome', 'hope'], ['hope']]}
+{'VP': set(['in']), 'NPa': set(['guess', 'risk']), 'NPb': set(['favorable', 'outcome', 'hope'])}
+[['act', 'making', 'something new'], ['human act', 'making', 'something'], ['act', 'making', 'something'], ['human act', 'making', 'something new']]
+{'VP': [['making']], 'NPa': [['human', 'act'], ['act']], 'NPb': [['new', 'something'], ['something']]}
+{'VP': set(['making']), 'NPa': set(['human', 'act']), 'NPb': set(['new', 'something'])}
+[['buyers', 'trade item in', 'marketplace'], ['buyers', 'trade', 'sellers'], ['buyers', 'item', 'sellers'], ['buyers', 'trade', 'item'], ['buyers', 'trade item in', 'open marketplace']]
+{'VP': [['item'], ['item', 'trade', 'in'], ['trade']], 'NPa': [['buyers']], 'NPb': [['item'], ['marketplace'], ['marketplace', 'open'], ['sellers']]}
+{'VP': set(['item', 'trade']), 'NPa': set(['buyers']), 'NPb': set(['item', 'marketplace', 'open', 'sellers'])}
+[['team', 'is on', 'during which offensive'], ['team', 'is on', 'offensive'], ['one team', 'is on', 'offensive'], ['one team', 'is on', 'during which offensive']]
+{'VP': [['on']], 'NPa': [['one', 'team'], ['team']], 'NPb': [['during', 'offensive', 'which'], ['offensive']]}
+{'VP': set(['on']), 'NPa': set(['team', 'one']), 'NPb': set(['which', 'during', 'offensive'])}
+[['act', 'making', 'something new'], ['human act', 'making', 'something'], ['act', 'making', 'something'], ['human act', 'making', 'something new']]
+{'VP': [['making']], 'NPa': [['human', 'act'], ['act']], 'NPb': [['new', 'something'], ['something']]}
+{'VP': set(['making']), 'NPa': set(['human', 'act']), 'NPb': set(['new', 'something'])}
+[['act', 'distributing things into', 'classes'], ['act', 'distributing', 'things'], ['act', 'distributing things into', 'classes type'], ['act', 'distributing things into', 'classes same type']]
+{'VP': [['distributing'], ['distributing', 'things', 'into']], 'NPa': [['act']], 'NPb': [['classes', 'type'], ['things'], ['classes'], ['classes', 'type', 'same']]}
+{'VP': set(['distributing']), 'NPa': set(['act']), 'NPb': set(['classes', 'things', 'type', 'same'])}
+[['document', 'granting', 'inventor sole rights'], ['document', 'granting inventor sole rights to', 'invention'], ['document', 'granting inventor rights to', 'invention'], ['document', 'granting', 'inventor rights']]
+{'VP': [['to', 'inventor', 'granting', 'rights'], ['to', 'inventor', 'sole', 'granting', 'rights'], ['granting']], 'NPa': [['document']], 'NPb': [['inventor', 'rights'], ['invention'], ['inventor', 'sole', 'rights']]}
+{'VP': set(['granting', 'rights', 'to', 'inventor']), 'NPa': set(['document']), 'NPb': set(['invention', 'rights', 'sole', 'inventor'])}
+[['one currency', 'is exchanged for', 'another'], ['currency', 'is exchanged for', 'another'], ['currency', 'is', 'by which exchanged for another'], ['one currency', 'is', 'exchanged'], ['one currency', 'is', 'by which exchanged for another'], ['currency', 'is', 'exchanged'], ['one currency', 'is', 'by which exchanged'], ['currency', 'is', 'by which exchanged']]
+{'VP': [[], ['exchanged', 'for']], 'NPa': [['currency', 'one'], ['currency']], 'NPb': [['exchanged'], ['exchanged', 'for', 'by', 'another', 'which'], ['another'], ['exchanged', 'by', 'which']]}
+{'VP': set([]), 'NPa': set(['currency', 'one']), 'NPb': set(['exchanged', 'for', 'another', 'which', 'by'])}
+[['feet', 'are encased in', 'iron'], ['feet', 'are', 'in which encased in iron'], ['feet', 'are', 'encased'], ['feet', 'are', 'in which encased']]
+{'VP': [['encased', 'in'], []], 'NPa': [['feet']], 'NPb': [['encased'], ['encased', 'which', 'iron', 'in'], ['encased', 'which', 'in'], ['iron']]}
+{'VP': set([]), 'NPa': set(['feet']), 'NPb': set(['which', 'iron', 'in', 'encased'])}
+[['physical act', 'following in', 'effort'], ['physical act', 'following in', 'effort overtake'], ['act', 'following in', 'effort'], ['act', 'following in', 'effort overtake']]
+{'VP': [['following', 'in']], 'NPa': [['physical', 'act'], ['act']], 'NPb': [['effort'], ['overtake', 'effort']]}
+{'VP': set(['following', 'in']), 'NPa': set(['act', 'physical']), 'NPb': set(['overtake', 'effort'])}
