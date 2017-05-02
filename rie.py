@@ -39,6 +39,7 @@ class corpus_streamer(object):
                 elif isinstance(self.position, int):
                     yield line.strip().split(self.spliter)[self.position]
 
+
 def dist_rank(phrases_list, we_model, ri_centroids, th=5):
     """ This function generates Regulatoy Interaction (RI) clusters. Given
     cluster centroids, there are two rankings. The former (vertical pathway)
@@ -129,12 +130,85 @@ def compressor(triplets, op="avg"):
     else:
         yield avg_compr(trip_dict, get=op)
 
-def vec2dict(vec_file):
+def vec2dict(vec_file, mt=True):
     from contextlib import closing as cl
     import shelve as shl
     from numpy import array
-
+    
     word_vectors=corpus_streamer(vec_file, strings=True, spliter=" ")
-    with cl(shl.open(vec_file+".dict", writeback=True)) as f
-        for vector in word_vectors:
+    if not mt:
+        with cl(shl.open(vec_file+".dict", writeback=True)) as f:
+            for vector in word_vectors:
+                f[vector[0]]=array([float(v) for v in vector[1:]])
+    else:
+        import threading
+        import Queue
+        import sys
+
+        #def do_work(in_queue, out_queue):
+        #    while True:
+
+        #        vector=in_queue.get()
+        #        with cl(shl.open(vec_file+".dict", writeback=True)) as f:
+
+        #            f[vector[0]]=array([float(v) for v in vector[1:]])
+        #        result = vector
+        #        out_queue.put(result)
+        #        in_queue.task_done()
+
+
+        #work = Queue.Queue()
+        #results = Queue.Queue()
+        #total = 10
+
+    # start for workers
+        #for i in xrange(2):
+        #    t = threading.Thread(target=do_work, args=(work, results))
+        #    t.daemon = True
+        #    t.start()
+
+    # produce data
+
+        #for v in word_vectors:
+        #    work.put(v)
+
+        #work.join()
+
+    # get the results
+        #for i in xrange(total):
+            #print results.get()
+
+            #sys.exit()
+
+    def do_work(vector):
+        with cl(shl.open(vec_file+".dict", writeback=True)) as f:
             f[vector[0]]=array([float(v) for v in vector[1:]])
+
+    def worker():
+        while True:
+            vector = q.get()
+            if vector is None:
+                break
+            do_work(vector)
+            q.task_done()
+
+    import queue
+
+    num_worker_threads=3
+    q = queue.Queue()
+    threads = []
+    for i in range(num_worker_threads):
+        t = threading.Thread(target=worker)
+        t.start()
+        threads.append(t)
+
+    for v in word_vectors:
+        q.put(v)
+
+# block until all tasks are done
+    q.join()
+# stop workers
+    for i in range(num_worker_threads):
+        q.put(None)
+    for t in threads:
+        t.join()
