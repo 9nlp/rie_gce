@@ -4,8 +4,9 @@
 #/almac/ignacio/data/sts_all/split_dir/f_58672.splt^I0^IU.N.^Iregulate^Iarms trade^I0^I1^I2^I3^I4^I6^I1.000^IU.N. to regulate global arms trade^INNP TO VB JJ NNS NN^IU.N.^Iregulate^Iarm trade
 #/almac/ignacio/data/sts_all/split_dir/f_73695.splt^I0^IIron Dome^Iis in^ICentral^I3^I5^I5^I6^I6^I7^I1.000^IIDF to deploy Iron Dome in Central Israel^INN TO VB NNP NNP IN NNP NNP^IIron Dome^Ibe in^ICentral
 import argparse
-import fasttext
-from numpy import mean, median
+from gensim.models.keyedvectors import KeyedVectors as vDB
+load_vectors=vDB.load_word2vec_format
+from numpy import mean, median, array, ndarray
 from pdb import set_trace  as st
 
 stoplist = 'it in is are been of the this those a these that then if thus with'.split()
@@ -103,7 +104,6 @@ def avg_compr(trip_dict, get="avg"):
                                                     key=lambda tup: tup[1])
             filt=[j[0] for j in rank if j[1]<=1]
             phrases_meet=ig(*filt)(trip_dict[t])
-            st()
             trip_dict[t]=list(trip_dict[t])[i]
         elif get == "med":
             length=int(median([len(f) for f in trip_dict[t]]))
@@ -115,7 +115,102 @@ def avg_compr(trip_dict, get="avg"):
             #print trip_dict
     return trip_dict
 
-def compressor(triplets, op="avg"):
+def weighted_avg(centroids, word_vectors):
+    from numpy.linalg import norm
+    from numpy import sum, multiply
+
+    word_clusters=[]
+    vect_centroids=[]
+    for master in centroids:
+        vec_list=[]
+        try:
+            vect=word_vectors[master] # This asumes no multiword expression
+        except KeyError:
+            continue
+        vec_list.append((vect, norm(vect), master))
+        for expression in centroids[master]:
+            try:
+                expr_vec=word_vectors[expression]
+            except KeyError:
+                print "The word expression '%s' is not in the word vector model." % expression
+                continue
+            vec_list.append((expr_vec, norm(expr_vec), expression))
+        # This approach uses the maximun vector norm for amplifying.
+        maximun=max([v[1] for v in vec_list])
+        if maximun < 1:
+        # Actually amplifying the (normalizing) first word vector when less than 1.
+            weight=maximun
+        else:
+            weight=2.0
+        word_clusters.append([vt[2] for vt in vec_list])
+        vect_centroids.append([vt[0] for vt in vec_list])
+        # amplifying the normalized word
+        vect_centroids[-1][0]=multiply(weight, vect_centroids[-1][0])
+        # Take the average of all words vectors of a centroid to form the
+        # actual centroid vector.
+        # TODO. Consider the geometric aspect: The main word probably should be
+        # at the center of the cluster, no necessaryly to have the largest norm.
+        vect_centroids[-1]=multiply(sum(vect_centroids[-1],axis=0),
+                                        1/(1.0*len(vect_centroids[-1])))
+    return array(vect_centroids), word_clusters
+
+def clusterer(word_vectors, trip_dict, centroid_file):
+    import json
+    from numpy import sum
+    from sklearn.cluster import KMeans
+    from sklearn.metrics.pairwise import cosine_distances as cos
+
+    n_micros=4
+    KMeans.euclidean_distances=cos
+    with open(centroid_file) as f:
+        master=json.load(f)
+    ri_vectors=[]
+    masters={}
+    for k in master:
+        if master[k] in masters:
+            masters[master[k]].update([k])
+        else:
+            masters[master[k]]=set()
+            masters[master[k]].update([k])
+
+    for regulation in masters.keys():
+        try:
+            ri_vectors.append(word_vectors[regulation])
+        except KeyError:
+            print "Possible exception: FUNDAMENTAL centroid word %s is not in the word vector model vocabulary." % k
+            pass
+
+    ri_vectors=array(ri_vectors)
+
+    centroids, word_clusters=weighted_avg(masters, word_vectors)
+    km=KMeans(init=centroids, n_clusters=len(masters.keys()), n_jobs=n_micros)
+    km.fit(ri_vectors)
+    clusters={}
+    for t in trip_dict:
+        phr_vectors=[]
+        for phrase in trip_dict[t]:
+            to_summ=[]
+            for word in phrase:
+                try:
+                    to_summ.append(word_vectors[word])
+                except KeyError:
+                    continue
+            phr_len=len(to_summ)
+            if phr_len > 1:
+                phr_vectors.append(sum(to_summ, axis=0))
+            elif phr_len == 1:
+                phr_vectors.append(to_summ[0])
+        #phr_vectors=array([sum([word_vectors[word] for word in phrase], axis=0)
+        #                                            for phrase in trip_dict[t]])
+
+        clusters[t]=km.predict(array(phr_vectors))
+
+    for labeling, t in zip(clusters, trip_dict):
+        clusters[labeling]=[(masters.keys()[label], phr)
+                        for label,phr in zip(clusters[labeling], trip_dict[t])]
+    return clusters
+
+def compressor(triplets, op="avg", word_vectors=None, centroid_file=None):
 
     trip_dict={"NPa":0, "VP":1, "NPb":2}
 
@@ -126,15 +221,17 @@ def compressor(triplets, op="avg"):
                         for y in trip_dict
               }
     if isinstance(op,list):
-        yield set_compr(trip_dict, ops=op)
+        return set_compr(trip_dict, ops=op)
+    elif op!="cluster":
+        return avg_compr(trip_dict, get=op)
     else:
-        yield avg_compr(trip_dict, get=op)
+        return clusterer(word_vectors, trip_dict, centroid_file)
 
 def vec2dict(vec_file, mt=True):
     from contextlib import closing as cl
     import shelve as shl
     from numpy import array
-    
+
     word_vectors=corpus_streamer(vec_file, strings=True, spliter=" ")
     if not mt:
         with cl(shl.open(vec_file+".dict", writeback=True)) as f:
@@ -144,71 +241,35 @@ def vec2dict(vec_file, mt=True):
         import threading
         import Queue
         import sys
+        import queue
 
-        #def do_work(in_queue, out_queue):
-        #    while True:
+        def do_work(vector):
+            with cl(shl.open(vec_file+".dict", writeback=True)) as f:
+                f[vector[0]]=array([float(v) for v in vector[1:]])
 
-        #        vector=in_queue.get()
-        #        with cl(shl.open(vec_file+".dict", writeback=True)) as f:
+        def worker():
+            while True:
+                vector = q.get()
+                if vector is None:
+                    break
+                do_work(vector)
+                q.task_done()
 
-        #            f[vector[0]]=array([float(v) for v in vector[1:]])
-        #        result = vector
-        #        out_queue.put(result)
-        #        in_queue.task_done()
+        num_worker_threads=3
+        q = queue.Queue()
+        threads = []
+        for i in range(num_worker_threads):
+            t = threading.Thread(target=worker)
+            t.start()
+            threads.append(t)
 
-
-        #work = Queue.Queue()
-        #results = Queue.Queue()
-        #total = 10
-
-    # start for workers
-        #for i in xrange(2):
-        #    t = threading.Thread(target=do_work, args=(work, results))
-        #    t.daemon = True
-        #    t.start()
-
-    # produce data
-
-        #for v in word_vectors:
-        #    work.put(v)
-
-        #work.join()
-
-    # get the results
-        #for i in xrange(total):
-            #print results.get()
-
-            #sys.exit()
-
-    def do_work(vector):
-        with cl(shl.open(vec_file+".dict", writeback=True)) as f:
-            f[vector[0]]=array([float(v) for v in vector[1:]])
-
-    def worker():
-        while True:
-            vector = q.get()
-            if vector is None:
-                break
-            do_work(vector)
-            q.task_done()
-
-    import queue
-
-    num_worker_threads=3
-    q = queue.Queue()
-    threads = []
-    for i in range(num_worker_threads):
-        t = threading.Thread(target=worker)
-        t.start()
-        threads.append(t)
-
-    for v in word_vectors:
-        q.put(v)
-
+        for v in word_vectors:
+            q.put(v)
 # block until all tasks are done
-    q.join()
+        q.join()
 # stop workers
-    for i in range(num_worker_threads):
-        q.put(None)
-    for t in threads:
-        t.join()
+        for i in range(num_worker_threads):
+            q.put(None)
+
+        for t in threads:
+            t.join()

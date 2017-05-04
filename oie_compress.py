@@ -1,4 +1,6 @@
+#-*- coding: utf-8 -*-
 from rie import *
+
 
 # __main__()
 
@@ -9,6 +11,10 @@ parser.add_argument("--oies", help="""Input file containing openIE triplets of
                                         all sentences.""", default=None)
 parser.add_argument("--op", help="""Operation performed among keys of a openIE
                         triplets set op='U,U,I','avg', 'med'.""", default="med")
+parser.add_argument("--vectors", help="Word embedding file in text format.",
+                                                                default=None)
+parser.add_argument("--ris", help="Dictionary (json) file of RI normalizations.",
+                                                                default=None)
 parser.add_argument("--o", help="Output file for compressed openIE triplet(s).",
                                                                 default=None)
 args = parser.parse_args()
@@ -41,14 +47,18 @@ if len(args.op) > 3:
         if not isinstance(op, list) or len(op)!=3:
             print "Malformed operator option."
             exit()
+    else:
+        word_vectors = load_vectors(args.vectors, binary=False)
+        op=args.op
 else:
     op=args.op
-
-triplets={triplet: compressor(triplets[triplet], op=op) for triplet in triplets}
-
+# compressor(triplets, op="avg", word_vectors=None, centroid_file=None)
+triplets={triplet: compressor(triplets[triplet], op=op,
+                              word_vectors=word_vectors,
+                              centroid_file=args.ris) for triplet in triplets}
 if not args.o:
     for t in triplets:
-        print "%s:\t%s" % (t, [tr for tr in triplets[t]])
+        print "%s:\t%s\n" % (t, triplets[t])
 else:
     with open(args.o, "w") as f:
         for t in triplets:
