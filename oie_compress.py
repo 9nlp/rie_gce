@@ -1,9 +1,10 @@
 #-*- coding: utf-8 -*-
 from rie import *
+from gensim.models.keyedvectors import KeyedVectors as vDB
 
+load_vectors=vDB.load_word2vec_format
 
 # __main__()
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--oie", help="""Input file containing openIE triplets of a
                                         sentence.""", default=None)
@@ -58,7 +59,7 @@ triplets={triplet: compressor(triplets[triplet], op=op,
                               centroid_file=args.ris) for triplet in triplets}
 if not args.o:
     for t in triplets:
-        print "%s:\t%s\n" % (t, triplets[t])
+        print "%s:\t%s\n\n" % (t, triplets[t])
 else:
     with open(args.o, "w") as f:
         for t in triplets:

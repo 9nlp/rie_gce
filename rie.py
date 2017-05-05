@@ -172,7 +172,11 @@ def clusterer(word_vectors, trip_dict, centroid_file):
         else:
             masters[master[k]]=set()
             masters[master[k]].update([k])
-
+    # Adding a generic cluster for trying to
+    masters["thing"]=set(["person", "world", "goverment", "company", "beer",
+                            "children", "homeless", "dog"])
+    masters["gene"]=set(["genetic", "genes", "rna", "protein", "operon",
+                            "intron", "promoter", "transfer"])
     for regulation in masters.keys():
         try:
             ri_vectors.append(word_vectors[regulation])
@@ -200,10 +204,19 @@ def clusterer(word_vectors, trip_dict, centroid_file):
                 phr_vectors.append(sum(to_summ, axis=0))
             elif phr_len == 1:
                 phr_vectors.append(to_summ[0])
+            elif phr_len == 0:
+                phr_vectors.append(word_vectors["thing"])
         #phr_vectors=array([sum([word_vectors[word] for word in phrase], axis=0)
         #                                            for phrase in trip_dict[t]])
-
-        clusters[t]=km.predict(array(phr_vectors))
+        #if len(phr_vectors) == 1: # In the case a unique triplet is extracted.
+        #    phr_vectors=array(phr_vectors).reshape(1, -1)
+        #else:
+        #    phr_vectors=array(phr_vectors)
+        try:
+            clusters[t]=km.predict(phr_vectors)
+        except:
+            print "Problems with clustering %s prhases have occurred with triplet %s." % (t, trip_dict[t])
+            continue
 
     for labeling, t in zip(clusters, trip_dict):
         clusters[labeling]=[(masters.keys()[label], phr)
