@@ -172,7 +172,7 @@ def clusterer(word_vectors, trip_dict, centroid_file):
         else:
             masters[master[k]]=set()
             masters[master[k]].update([k])
-    # Adding a generic cluster for trying to
+    # Adding a generic clusters for trying to attract outliers
     masters["thing"]=set(["person", "world", "goverment", "company", "beer",
                             "children", "homeless", "dog"])
     masters["gene"]=set(["genetic", "genes", "rna", "protein", "operon",
@@ -185,8 +185,9 @@ def clusterer(word_vectors, trip_dict, centroid_file):
             pass
 
     ri_vectors=array(ri_vectors)
-
+    # Creating centroids by averaging word vectors from each regulation word list.
     centroids, word_clusters=weighted_avg(masters, word_vectors)
+    # Initializing KMeans clustering to averaged centroids computed above.
     km=KMeans(init=centroids, n_clusters=len(masters.keys()), n_jobs=n_micros)
     km.fit(ri_vectors)
     clusters={}
@@ -204,14 +205,10 @@ def clusterer(word_vectors, trip_dict, centroid_file):
                 phr_vectors.append(sum(to_summ, axis=0))
             elif phr_len == 1:
                 phr_vectors.append(to_summ[0])
-            elif phr_len == 0:
+            elif phr_len == 0: # For empty completely OOV phrases.
                 phr_vectors.append(word_vectors["thing"])
         #phr_vectors=array([sum([word_vectors[word] for word in phrase], axis=0)
         #                                            for phrase in trip_dict[t]])
-        #if len(phr_vectors) == 1: # In the case a unique triplet is extracted.
-        #    phr_vectors=array(phr_vectors).reshape(1, -1)
-        #else:
-        #    phr_vectors=array(phr_vectors)
         try:
             clusters[t]=km.predict(phr_vectors)
         except:
@@ -233,11 +230,11 @@ def compressor(triplets, op="avg", word_vectors=None, centroid_file=None):
                     for x in triplets])]
                         for y in trip_dict
               }
-    if isinstance(op,list):
+    if isinstance(op,list): # Set operations filter
         return set_compr(trip_dict, ops=op)
-    elif op!="cluster":
+    elif op!="cluster": # Center tendency filter
         return avg_compr(trip_dict, get=op)
-    else:
+    else:               # Cathegory-phrase clustering
         return clusterer(word_vectors, trip_dict, centroid_file)
 
 def vec2dict(vec_file, mt=True):
