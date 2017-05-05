@@ -1,4 +1,4 @@
-# Ejemplos feos con entrenamiento de lengua general (Glove, sin regulon).
+# Ejemplos feos con entrenamiento de lengua general (Glove, 50dims, sin regulon).
 # Ejemplo sin outliers
 karla_tests__0.splt:	{'VP': [(u'repressor', ['activate'])], 'NPa': [(u'regulator', ['ability'])], 'NPb': [(u'repressor', ['fimb', 'expression'])]}
 
