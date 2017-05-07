@@ -1,0 +1,42 @@
+python oie_compress.py --oies karla_tests.reverb --op cluster --vectors $DATA/GUsDany/w2v_raw_GUsDanny-literature-wiki_H300_Acbow_W10.vec --ris normalized_Effects_regulon.json
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+/usr/local/lib/python2.7/dist-packages/sklearn/cluster/k_means_.py:821: RuntimeWarning: Explicit initial center position passed: performing only one init in k-means instead of n_init=10
+  n_jobs=self.n_jobs)
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+karla_tests__0.splt:  {'VP': [(u'repressor', ['activate'])], 'NPa': [(u'activator', ['ability'])], 'NPb': [(u'repressor', ['fimb', 'expression'])]}
+
+karla_tests__1.splt:  {'VP': [(u'repressor', ['repress'])], 'NPa': [(u'repressor', ['ihf', 'show'])], 'NPb': [(u'activator', ['transcription', 'ompc'])]}
+
+karla_tests__2.splt:  {'VP': [(u'repressor', ['appear']), (u'repressor', ['independently', 'activate']), (u'repressor', ['activate']), (u'repressor', ['appear'])], 'NPa': [('thing', ['nanr'])], 'NPb': [(u'repressor', ['fimb', 'expression']), (u'repressor', ['nagc'])]}
+
+karla_tests__5.splt:  {'VP': [('thing', ['be']), (u'activator', ['expression', 'constitutive']), ('thing', ['be']), (u'repressor', ['nfnb', 'expression', 'upregulate']), (u'repressor', ['expression']), (u'repressor', ['upregulate']), ('thing', ['be', 'by']), ('thing', ['be'])], 'NPa': [(u'repressor', ['mara']), (u'activator', ['expression', 'constitutive']), (u'repressor', ['mediate']), (u'repressor', ['soxs']), (u'repressor', ['expression']), (u'activator', ['contrast'])], 'NPb': [('gene', ['activation', 'lack', 'mediate', 'chromosomal', 'soxs', 'expression', 'by', 'contrast']), (u'activator', ['activation', 'lack', 'mediate', 'constitutive', 'soxs', 'expression', 'by', 'contrast']), (u'activator', ['activation', 'lack', 'mediate', 'expression', 'by', 'contrast']), (u'activator', ['activation', 'lack', 'mediate', 'contrast']), ('thing', ['able']), ('gene', ['activation', 'lack', 'mediate', 'constitutive', 'chromosomal', 'soxs', 'expression', 'by', 'contrast']), (u'repressor', ['soxs']), ('gene', ['activation', 'lack', 'mediate', 'constitutive', 'chromosomal', 'soxs', 'expression', 'by']), (u'activator', ['lack', 'contrast']), (u'activator', ['activation', 'lack', 'contrast']), (u'activator', ['constitutive']), (u'activator', ['activation', 'lack', 'mediate', 'constitutive', 'expression', 'by', 'contrast']), ('gene', ['chromosomal']), (u'activator', ['activation', 'lack', 'mediate', 'soxs', 'expression', 'by', 'contrast']), ('gene', ['soxs', 'chromosomal']), (u'activator', ['contrast']), (u'repressor', ['nfnb', 'expression'])]}
+
+karla_tests__6.splt:  {'VP': [(u'repressor', ['activate', 'can']), (u'repressor', ['activate']), (u'activator', ['broad', 'range']), (u'activator', ['range']), (u'repressor', ['be', 'include']), ('thing', ['be'])], 'NPa': [(u'activator', ['transcription']), (u'activator', ['range']), (u'repressor', ['Rob', 'homolog', 'mara']), ('thing', ['reference'])], 'NPb': [(u'repressor', ['soxs']), (u'activator', ['transcription']), ('gene', ['gene']), (u'activator', ['broad']), (u'repressor', ['soda'])]}
+
+karla_tests__7.splt:  {'VP': [('thing', ['be']), ('thing', ['seem']), ('thing', ['seem']), (u'repressor', ['be', 'enhance'])], 'NPa': [(u'activator', ['ability']), ('thing', [])], 'NPb': [('gene', ['mutant', 'd3', 'background']), (u'repressor', ['enhance']), (u'activator', ['likely']), (u'repressor', ['d3', 'background'])]}
+
+karla_tests__8.splt:  {'VP': [(u'activator', ['bind']), (u'activator', ['bind']), (u'activator', ['bind', 'to']), ('thing', ['be']), ('thing', ['be', 'to'])], 'NPa': [(u'repressor', ['melr']), (u'activator', ['melab', 'promoter']), (u'repressor', ['manner']), (u'repressor', ['site'])], 'NPb': [(u'repressor', ['co-operatively', 'site', 'to']), (u'repressor', ['crp']), (u'repressor', ['co-dependent']), (u'activator', ['co-operatively', 'melab', 'promoter']), (u'activator', ['co-operatively', 'site', 'promoter', 'to', 'adjacent', 'melab']), (u'repressor', ['adjacent']), (u'activator', ['melab', 'promoter']), (u'activator', ['co-operatively', 'melab', 'site', 'promoter', 'to']), ('thing', ['conclusion'])]}
+
+karla_tests__4.splt:  {'VP': [('thing', ['however', 'show']), (u'activator', ['transcription', 'repress', 'from', 'ompc']), ('thing', ['show'])], 'NPa': [('thing', ['experiment']), ('thing', ['experiment']), (u'repressor', ['ihf'])], 'NPb': [(u'activator', ['its', 'three', 'promoter', 'two']), (u'repressor', ['ihf'])]}
