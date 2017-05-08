@@ -1,8 +1,11 @@
 #-*- coding: utf-8 -*-
 from rie import *
 from gensim.models.keyedvectors import KeyedVectors as vDB
+import logging
 
 load_vectors=vDB.load_word2vec_format
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
+                    level=logging.INFO)
 
 # __main__()
 parser = argparse.ArgumentParser()
@@ -16,7 +19,7 @@ parser.add_argument("--vectors", help="Word embedding file in text format.",
                                                                 default=None)
 parser.add_argument("--ris", help="Dictionary (json) file of RI normalizations.",
                                                                 default=None)
-parser.add_argument("--o", help="Output file for compressed openIE triplet(s).",
+parser.add_argument("--out", help="Output file for compressed openIE triplet(s).",
                                                                 default=None)
 args = parser.parse_args()
 
@@ -29,7 +32,7 @@ if args.oie:
     with open(args.oie) as f:
         triplets=[line.strip().split("\t")[1:] for line in f.readlines()]
     if len(triplets[0]) < 3:
-        print "No triplets in file %s" % args.oie
+        print ("No triplets in file %s" % args.oie)
         exit()
 
 elif args.oies:
@@ -46,10 +49,10 @@ if len(args.op) > 3:
     if "," in args.op:
         op=args.op.split(",")
         if not isinstance(op, list) or len(op)!=3:
-            print "Malformed operator option."
+            print ("Malformed operator option.")
             exit()
     else:
-        word_vectors = load_vectors(args.vectors, binary=False)
+        word_vectors = load_vectors(args.vectors, binary=False, encoding='latin-1')
         op=args.op
 else:
     op=args.op
@@ -57,11 +60,11 @@ else:
 triplets={triplet: compressor(triplets[triplet], op=op,
                               word_vectors=word_vectors,
                               centroid_file=args.ris) for triplet in triplets}
-if not args.o:
+if not args.out:
     for t in triplets:
-        print "%s:\t%s\n" % (t, triplets[t])
+        print ("%s:\t%s\n" % (t, triplets[t]))
 else:
-    with open(args.o, "w") as f:
+    with open(args.out, "w") as f:
         for t in triplets:
             f.write("%s:\t%s\n" % (t, triplets[t]))
 # 1.0	much	be paid on	insurance claim

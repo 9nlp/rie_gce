@@ -132,7 +132,7 @@ def weighted_avg(centroids, word_vectors):
             try:
                 expr_vec=word_vectors[expression]
             except KeyError:
-                print "The word expression '%s' is not in the word vector model." % expression
+                print ("The word expression '%s' is not in the word vector model." % expression)
                 continue
             vec_list.append((expr_vec, norm(expr_vec), expression))
         # This approach uses the maximun vector norm for amplifying.
@@ -181,7 +181,7 @@ def clusterer(word_vectors, trip_dict, centroid_file):
         try:
             ri_vectors.append(word_vectors[regulation])
         except KeyError:
-            print "Possible exception: FUNDAMENTAL centroid word %s is not in the word vector model vocabulary." % k
+            print ("Possible exception: FUNDAMENTAL centroid word %s is not in the word vector model vocabulary." % k)
             pass
 
     ri_vectors=array(ri_vectors)
@@ -212,11 +212,12 @@ def clusterer(word_vectors, trip_dict, centroid_file):
         try:
             clusters[t]=km.predict(phr_vectors)
         except:
-            print "Problems with clustering %s prhases have occurred with triplet %s." % (t, trip_dict[t])
+            print ("Problems with clustering %s prhases have occurred with triplet %s." % (t, trip_dict[t]))
             continue
 
     for labeling, t in zip(clusters, trip_dict):
-        clusters[labeling]=[(masters.keys()[label], phr)
+        
+        clusters[labeling]=[(list(masters)[label], phr)
                         for label,phr in zip(clusters[labeling], trip_dict[t])]
     return clusters
 

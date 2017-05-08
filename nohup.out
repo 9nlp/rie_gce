@@ -1,0 +1,159 @@
+2017-05-07 13:46:51,124 : INFO : loading projection weights from /almac/ignacio/data/GUsDany/glove_GUsDanny-literature_H100_W8.vec
+Traceback (most recent call last):
+  File "oie_compress.py", line 55, in <module>
+    word_vectors = load_vectors(args.vectors, binary=False)
+  File "/usr/local/lib/python2.7/dist-packages/gensim/models/keyedvectors.py", line 240, in load_word2vec_format
+    parts = utils.to_unicode(line.rstrip(), encoding=encoding, errors=unicode_errors).split(" ")
+  File "/usr/local/lib/python2.7/dist-packages/gensim/utils.py", line 235, in any2unicode
+    return unicode(text, encoding, errors=errors)
+  File "/usr/lib/python2.7/encodings/utf_8.py", line 16, in decode
+    return codecs.utf_8_decode(input, errors, True)
+UnicodeDecodeError: 'utf8' codec can't decode byte 0xe1 in position 57: invalid continuation byte
+2017-05-07 20:09:21,533 : INFO : loading projection weights from /almac/ignacio/data/GUsDany/glove_GUsDanny-literature_H100_W8.vec
+Traceback (most recent call last):
+  File "oie_compress.py", line 55, in <module>
+    word_vectors = load_vectors(args.vectors, binary=False)
+  File "/usr/local/lib/python3.4/dist-packages/gensim/models/keyedvectors.py", line 240, in load_word2vec_format
+    parts = utils.to_unicode(line.rstrip(), encoding=encoding, errors=unicode_errors).split(" ")
+  File "/usr/local/lib/python3.4/dist-packages/gensim/utils.py", line 235, in any2unicode
+    return unicode(text, encoding, errors=errors)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe1 in position 57: invalid continuation byte
+2017-05-07 22:05:45,798 : INFO : loading projection weights from /almac/ignacio/data/GUsDany/glove_GUsDanny-literature_H100_W8.vec
+2017-05-07 22:15:49,826 : INFO : loaded (5837545, 100) matrix from /almac/ignacio/data/GUsDany/glove_GUsDanny-literature_H100_W8.vec
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+/usr/local/lib/python3.4/dist-packages/sklearn/cluster/k_means_.py:889: RuntimeWarning: Explicit initial center position passed: performing only one init in k-means instead of n_init=10
+  return_n_iter=True)
+Traceback (most recent call last):
+  File "oie_compress.py", line 62, in <module>
+    centroid_file=args.ris) for triplet in triplets}
+  File "oie_compress.py", line 62, in <dictcomp>
+    centroid_file=args.ris) for triplet in triplets}
+  File "/almac/ignacio/rie_gce/rie.py", line 238, in compressor
+    return clusterer(word_vectors, trip_dict, centroid_file)
+  File "/almac/ignacio/rie_gce/rie.py", line 220, in clusterer
+    for label,phr in zip(clusters[labeling], trip_dict[t])]
+  File "/almac/ignacio/rie_gce/rie.py", line 220, in <listcomp>
+    for label,phr in zip(clusters[labeling], trip_dict[t])]
+TypeError: 'dict_keys' object does not support indexing
+2017-05-07 23:02:36,582 : INFO : loading projection weights from /almac/ignacio/data/GUsDany/glove_GUsDanny-literature_H100_W8.vec
+2017-05-07 23:12:39,378 : INFO : loaded (5837545, 100) matrix from /almac/ignacio/data/GUsDany/glove_GUsDanny-literature_H100_W8.vec
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+/usr/local/lib/python3.4/dist-packages/sklearn/cluster/k_means_.py:889: RuntimeWarning: Explicit initial center position passed: performing only one init in k-means instead of n_init=10
+  return_n_iter=True)
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+Traceback (most recent call last):
+  File "oie_compress.py", line 63, in <module>
+    if not args.o:
+AttributeError: 'Namespace' object has no attribute 'o'
+2017-05-07 23:22:58,081 : INFO : loading projection weights from /almac/ignacio/data/GUsDany/fsTx_raw_GUsDanny-literature-wiki_H200_Askipgram_W5.vec
+2017-05-07 23:26:06,574 : INFO : loading projection weights from /almac/ignacio/data/GUsDany/glove_GUsDanny-literature_H100_W8.vec
+2017-05-07 23:37:44,323 : INFO : loaded (5837545, 100) matrix from /almac/ignacio/data/GUsDany/glove_GUsDanny-literature_H100_W8.vec
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+/usr/local/lib/python3.4/dist-packages/sklearn/cluster/k_means_.py:889: RuntimeWarning: Explicit initial center position passed: performing only one init in k-means instead of n_init=10
+  return_n_iter=True)
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+2017-05-07 23:41:25,856 : INFO : loaded (5837545, 200) matrix from /almac/ignacio/data/GUsDany/fsTx_raw_GUsDanny-literature-wiki_H200_Askipgram_W5.vec
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+/usr/local/lib/python3.4/dist-packages/sklearn/cluster/k_means_.py:889: RuntimeWarning: Explicit initial center position passed: performing only one init in k-means instead of n_init=10
+  return_n_iter=True)
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+Traceback (most recent call last):
+  File "oie_compress.py", line 63, in <module>
+    if not args.out:
+AttributeError: 'Namespace' object has no attribute 'o'
+2017-05-07 23:46:30,647 : INFO : loading projection weights from /almac/ignacio/data/GUsDany/fsTx_raw_GUsDanny-literature-wiki_H200_Askipgram_W5.vec
+2017-05-08 00:04:39,189 : INFO : loaded (5837545, 200) matrix from /almac/ignacio/data/GUsDany/fsTx_raw_GUsDanny-literature-wiki_H200_Askipgram_W5.vec
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+/usr/local/lib/python3.4/dist-packages/sklearn/cluster/k_means_.py:889: RuntimeWarning: Explicit initial center position passed: performing only one init in k-means instead of n_init=10
+  return_n_iter=True)
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
+The word expression 'uninduces' is not in the word vector model.
+The word expression 'uninduction' is not in the word vector model.
+The word expression 'uninduce' is not in the word vector model.
