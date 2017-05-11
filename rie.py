@@ -154,14 +154,9 @@ def weighted_avg(centroids, word_vectors):
                                         1/(1.0*len(vect_centroids[-1])))
     return array(vect_centroids), word_clusters
 
-def clusterer(word_vectors, trip_dict, centroid_file):
+def load_centroids(centroid_file):
     import json
-    from numpy import sum
-    from sklearn.cluster import KMeans
-    from sklearn.metrics.pairwise import cosine_distances as cos
-
-    n_micros=4
-    KMeans.euclidean_distances=cos
+    
     with open(centroid_file) as f:
         master=json.load(f)
     ri_vectors=[]
@@ -172,7 +167,19 @@ def clusterer(word_vectors, trip_dict, centroid_file):
         else:
             masters[master[k]]=set()
             masters[master[k]].update([k])
+            
+    return masters
+
+def clusterer(word_vectors, trip_dict, centroid_file):
+    import json
+    from numpy import sum
+    from sklearn.cluster import KMeans
+    from sklearn.metrics.pairwise import cosine_distances as cos
+
+    n_micros=4
+    KMeans.euclidean_distances=cos
     # Adding a generic clusters for trying to attract outliers
+    load_centroids(centroid_file)
     masters["thing"]=set(["person", "world", "goverment", "company", "beer",
                             "children", "homeless", "dog"])
     masters["gene"]=set(["genetic", "genes", "rna", "protein", "operon",
