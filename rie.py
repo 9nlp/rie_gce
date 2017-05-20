@@ -50,32 +50,35 @@ def dist_rank(phrases_list, we_model, ri_centroids, th=5):
     """
     #for phrase in phrases_list:
 
-def get_fuzzy_effect(chioces, masters, memship_par):
+def get_fuzzy_effect(trip_list, masters, memship_par=0, center="median"):
     """ trip_list=["trip string 1","trip string 2","trip string so on",...]
         masters={"effect_1": ["list","of","effects"],
                   "effect_2": ["list","of","effects"],...}
+        memship_par >= 0. 0 for considering all fuzzy similarities (comple-
+        ly relaxed) and 100 for considering nothing (completely estrict).
     """
     from fuzzywuzzy import fuzz, process
     import numpy as np
     votes={}
-    #chioces=[[t] for t in trip_list]
+    
+    trip_list=[[t] for t in trip_list]
     for e in masters:
-        votes[e]=[ex for ex in process.extract(e,chioces)]# if ex[1]>memship_par]
+        votes[e]=[ex for ex in process.extract(e, trip_list) if ex[1]>memship_par]
         for effect in masters[e]:
-            votes[e]+=[ext for ext in process.extract(effect, chioces)]# if ext[1]>memship_par]
+            votes[e]+=[ex for ex in process.extract(effect, trip_list) 
+                                                             if ex[1]>memship_par]
 
-        votes[e]=(votes[e],len(votes[e]))
-    actual_effec=[]
+        votes[e]=(votes[e], len(votes[e]))
+    actual_effect=[]
 
-    #for e in votes:
-    #    if votes[e][1]>actual_effec[1]:
-    #        actual_effec=(e, np.mean([v[1] for v in votes[e][0]]))
+    if center=="median": center=np.median
+    else: center=np.mean
+
     for e in votes:
-        effect_memb_mean=np.median([w[1] for w in votes[e][0]])
-        actual_effec.append((e, effect_memb_mean, votes[e][1]))
+        effect_memb_mean=center([w[1] for w in votes[e][0]])
+        actual_effect.append((e, effect_memb_mean, votes[e][1]))
 
-    #st()
-    return actual_effec
+    return actual_effect
 
 def set_compr(trip_dict, ops=["U","U","I"]):
     """Compress a set of tripletes by performing set operations inside a unique
