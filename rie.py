@@ -204,7 +204,7 @@ def clusterer(word_vectors, trip_dict, centroid_file):
     n_micros=4
     KMeans.euclidean_distances=cos
     # Adding a generic clusters for trying to attract outliers
-    load_centroids(centroid_file)
+    masters=load_centroids(centroid_file)
     masters["thing"]=set(["person", "world", "goverment", "company", "beer",
                             "children", "homeless", "dog"])
     masters["gene"]=set(["genetic", "genes", "rna", "protein", "operon",
