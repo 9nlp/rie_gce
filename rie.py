@@ -50,6 +50,33 @@ def dist_rank(phrases_list, we_model, ri_centroids, th=5):
     """
     #for phrase in phrases_list:
 
+def get_fuzzy_effect(chioces, masters, memship_par):
+    """ trip_list=["trip string 1","trip string 2","trip string so on",...]
+        masters={"effect_1": ["list","of","effects"],
+                  "effect_2": ["list","of","effects"],...}
+    """
+    from fuzzywuzzy import fuzz, process
+    import numpy as np
+    votes={}
+    #chioces=[[t] for t in trip_list]
+    for e in masters:
+        votes[e]=[ex for ex in process.extract(e,chioces)]# if ex[1]>memship_par]
+        for effect in masters[e]:
+            votes[e]+=[ext for ext in process.extract(effect, chioces)]# if ext[1]>memship_par]
+
+        votes[e]=(votes[e],len(votes[e]))
+    actual_effec=[]
+
+    #for e in votes:
+    #    if votes[e][1]>actual_effec[1]:
+    #        actual_effec=(e, np.mean([v[1] for v in votes[e][0]]))
+    for e in votes:
+        effect_memb_mean=np.median([w[1] for w in votes[e][0]])
+        actual_effec.append((e, effect_memb_mean, votes[e][1]))
+
+    #st()
+    return actual_effec
+
 def set_compr(trip_dict, ops=["U","U","I"]):
     """Compress a set of tripletes by performing set operations inside a unique
     category, e.g. the union/intersection of the elements of 'NPa'.
@@ -159,7 +186,6 @@ def load_centroids(centroid_file):
     
     with open(centroid_file) as f:
         master=json.load(f)
-    ri_vectors=[]
     masters={}
     for k in master:
         if master[k] in masters:
@@ -171,7 +197,6 @@ def load_centroids(centroid_file):
     return masters
 
 def clusterer(word_vectors, trip_dict, centroid_file):
-    import json
     from numpy import sum
     from sklearn.cluster import KMeans
     from sklearn.metrics.pairwise import cosine_distances as cos
@@ -184,6 +209,8 @@ def clusterer(word_vectors, trip_dict, centroid_file):
                             "children", "homeless", "dog"])
     masters["gene"]=set(["genetic", "genes", "rna", "protein", "operon",
                             "intron", "promoter", "transfer"])
+    ri_vectors=[]
+
     for regulation in masters.keys():
         try:
             ri_vectors.append(word_vectors[regulation])
@@ -240,7 +267,7 @@ def compressor(triplets, op="avg", word_vectors=None, centroid_file=None):
               }
     if isinstance(op,list): # Set operations filter
         return set_compr(trip_dict, ops=op)
-    elif op!="cluster": # Center tendency filter
+    elif op!="cluster" : # Center tendency filter
         return avg_compr(trip_dict, get=op)
     else:               # Cathegory-phrase clustering
         return clusterer(word_vectors, trip_dict, centroid_file)
