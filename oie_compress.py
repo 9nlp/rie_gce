@@ -51,11 +51,12 @@ if len(args.op) > 3:
         if not isinstance(op, list) or len(op)!=3:
             print ("Malformed operator option.")
             exit()
-    else:
+    elif not args.op.startswith("fuzzy"):
         word_vectors = load_vectors(args.vectors, binary=False, encoding='latin-1')
         op=args.op
-else:
-    op=args.op
+    else:
+        op=args.op
+        word_vectors=None
 # compressor(triplets, op="avg", word_vectors=None, centroid_file=None)
 triplets={triplet: compressor(triplets[triplet], op=op,
                               word_vectors=word_vectors,

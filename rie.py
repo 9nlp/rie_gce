@@ -50,7 +50,7 @@ def dist_rank(phrases_list, we_model, ri_centroids, th=5):
     """
     #for phrase in phrases_list:
 
-def get_fuzzy_effect(trip_list, masters, memship_par=0, center="median"):
+def get_fuzzy_effect(trip_list, masters, boost_match=25.0, memship_par=0, center="median"):
     """ trip_list=["trip string 1","trip string 2","trip string so on",...]
         masters={"effect_1": ["list","of","effects"],
                   "effect_2": ["list","of","effects"],...}
@@ -60,23 +60,36 @@ def get_fuzzy_effect(trip_list, masters, memship_par=0, center="median"):
     from fuzzywuzzy import fuzz, process
     import numpy as np
     votes={}
-    
+    masters=load_centroids(masters)
     trip_list=[[t] for t in trip_list]
-    for e in masters:
-        votes[e]=[ex for ex in process.extract(e, trip_list) if ex[1]>memship_par]
-        for effect in masters[e]:
-            votes[e]+=[ex for ex in process.extract(effect, trip_list) 
+    # Fuzzy string matching implementation.
+    if memship_par>=0:
+        for e in masters:
+            votes[e]=[ex for ex in process.extract(e, trip_list) if ex[1]>memship_par]
+            for effect in masters[e]:
+                votes[e]+=[ex for ex in process.extract(effect, trip_list)
                                                              if ex[1]>memship_par]
+            votes[e]=(votes[e], len(votes[e]))
 
-        votes[e]=(votes[e], len(votes[e]))
+        if center=="median": center=np.median
+        else: center=np.mean
+    # Boost match implementation. Remark importance to effects contained exacly
+    # or partially.
+    matches={k:0 for k in masters}
+    for e in masters:
+        matches[e]+=sum([1.0 for s in trip_list if e in s[0]])
+        for d in masters[e]:
+            matches[e]+=sum([1.0 for s in trip_list if d in s[0]])
+
     actual_effect=[]
 
-    if center=="median": center=np.median
-    else: center=np.mean
-
-    for e in votes:
-        effect_memb_mean=center([w[1] for w in votes[e][0]])
-        actual_effect.append((e, effect_memb_mean, votes[e][1]))
+    for e in masters:
+        if memship_par >= 0:
+            effect_memb_mean=center([w[1] for w in votes[e][0]])
+            actual_effect.append((e, effect_memb_mean+boost_match*matches[e], votes[e][1]))
+        else:
+            effect_memb_mean=0
+            actual_effect.append((e, effect_memb_mean+boost_match*matches[e], 0.0))
 
     return actual_effect
 
@@ -186,7 +199,7 @@ def weighted_avg(centroids, word_vectors):
 
 def load_centroids(centroid_file):
     import json
-    
+
     with open(centroid_file) as f:
         master=json.load(f)
     masters={}
@@ -196,7 +209,7 @@ def load_centroids(centroid_file):
         else:
             masters[master[k]]=set()
             masters[master[k]].update([k])
-            
+
     return masters
 
 def clusterer(word_vectors, trip_dict, centroid_file):
@@ -253,10 +266,31 @@ def clusterer(word_vectors, trip_dict, centroid_file):
             continue
 
     for labeling, t in zip(clusters, trip_dict):
-        
+
         clusters[labeling]=[(list(masters)[label], phr)
                         for label,phr in zip(clusters[labeling], trip_dict[t])]
     return clusters
+
+def fuzzy_effect(trip_dic, masters, center="median", strict=0, match=10):
+    import operator
+    votes={}
+
+    for p in trip_dic:
+        trip=[" ".join(s) for s in trip_dic[p]]
+        effects={e:d for e, d, _ in get_fuzzy_effect(trip,
+                                masters=masters,
+                                boost_match=match,
+                                memship_par=strict,
+                                center=center)
+                                }
+        votes[p]=max(effects.iteritems(), key=operator.itemgetter(1))
+    maximum=["any", 0]
+    for p in votes:
+        if votes[p][1] > maximum[1]:
+            maximum[0]=votes[p][0]
+            maximum[1]=votes[p][1]
+
+    return maximum
 
 def compressor(triplets, op="avg", word_vectors=None, centroid_file=None):
 
@@ -270,10 +304,12 @@ def compressor(triplets, op="avg", word_vectors=None, centroid_file=None):
               }
     if isinstance(op,list): # Set operations filter
         return set_compr(trip_dict, ops=op)
-    elif op!="cluster" : # Center tendency filter
+    elif op=="avg" or op=="med": # Center tendency filter
         return avg_compr(trip_dict, get=op)
-    else:               # Cathegory-phrase clustering
+    elif op == "cluster":               # Cathegory-phrase clustering
         return clusterer(word_vectors, trip_dict, centroid_file)
+    elif op == "fuzzy":
+        return fuzzy_effect(trip_dict, centroid_file, center=op, strict=0, match=10)
 
 def vec2dict(vec_file, mt=True):
     from contextlib import closing as cl
