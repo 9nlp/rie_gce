@@ -22,3 +22,12 @@ $ python oie_compress.py --oies trickyExamples.txt.reverb --op fuzzy \
   --ris normalized_Effects_regulon.json --out trickyExamples.txt.fuzzy
 $ paste -d"\t" trickyExamples.txt.fuzzy <(for fil in  $(awk -F '\\t' '{print $1}' \
   trickyExamples.txt.fuzzy); do cat $ST/$fil; done)
+
+  trickyExample.txt_7.splt	[u'regulator', 39.976190476190474]	In conclusion , MelR and CRP bind to the melAB promoter co - operatively to adjacent sites in order to activate transcription in a co - dependent manner
+  trickyExample.txt_1.splt	[u'activator', 66.4375]	Thus , NanR and NagC appear to activate fimB expression independently .
+  trickyExample.txt_0.splt	[u'repressor', 58.875]	The ability of IHF alone to activate fimB expression show IHF to repress ompC transcription
+  trickyExample.txt_2.splt	[u'repressor', 53.615384615384613]	Thus MarA is able to repress the rob promoter after the preformed open complex clears the promoter .
+  trickyExample.txt_3.splt	[u'repressor', 66.400000000000006]	However , in vitro experiments show IHF to repress ompC transcription from two of its three promoters .
+  trickyExample.txt_5.splt	[u'activator', 49.272727272727273]	The Rob homologs MarA and SoxS can activate transcription of a broad range of genes in vivo ( reviewed in references 2 and 14 ) , including sodA , fumC , micF , zwf , and inaA , suggesting broadly overlapping activities of these three regulators .
+  trickyExample.txt_4.splt	[u'activator', 137.65000000000001]	These results show that constitutive and inducible expression of the chromosomal MarA was able to upregulate nfnB expression in contrast with the lack of activation mediated by constitutive expression of the chromosomal SoxS and Rob proteins .
+  trickyExample.txt_6.splt	[u'activator', 31.962962962962962]	It thus seems likely that the ability of IHF alone to activate fimB expression is enhanced in the D3 mutant background
