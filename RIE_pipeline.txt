@@ -1,0 +1,24 @@
+# Automatic annotation of Regulatory Interactions based on fuzzy string matching
+# and curated dictionary. The 'inputfile.txt' probably contains the raw sentences.
+
+$ hypothetic_simplifier.py < inputfile.txt > trickyExample.txt
+
+# Split the file containing a sentence by row. It is how the simplifier should
+# provide sentences.
+
+$ split -a 1 -d -l 1 --additional-suffix=.splt trickyExample.txt trickyExample.txt_
+$ ls trickyExample.txt_*splt > trickyExamples.txt
+
+# After installing the last version of the CoreNLP from GitHub, pass to it the
+# list of files "trickyExamples.txt". The command will give the effect found for
+# each input sentence.
+
+$ java -Xms2g -cp "$ST/*" edu.stanford.nlp.naturalli.OpenIE -filelist trickyExamples.txt\
+  -triple.strict false -triple.all_nominals true -format reverb > output.reverb
+
+# Paste input and output for fancy printing
+
+$ python oie_compress.py --oies trickyExamples.txt.reverb --op fuzzy \
+  --ris normalized_Effects_regulon.json --out trickyExamples.txt.fuzzy
+$ paste -d"\t" trickyExamples.txt.fuzzy <(for fil in  $(awk -F '\\t' '{print $1}' \
+  trickyExamples.txt.fuzzy); do cat $ST/$fil; done)
