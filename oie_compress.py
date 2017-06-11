@@ -63,11 +63,11 @@ triplets={triplet: compressor(triplets[triplet], op=op,
                               centroid_file=args.ris) for triplet in triplets}
 if not args.out:
     for t in triplets:
-        print ("%s:\t%s\n" % (t, triplets[t]))
+        print ("%s:\t%s" % (t, triplets[t]))
 else:
     with open(args.out, "w") as f:
         for t in triplets:
-            f.write("%s:\t%s\n" % (t, triplets[t]))
+            f.write("%s\t%s\n" % (t, triplets[t]))
 # 1.0	much	be paid on	insurance claim
 # 1.0	much	is	paid
 # 1.0	much	is	paid on insurance claim
