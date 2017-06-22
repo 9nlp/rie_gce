@@ -283,7 +283,7 @@ def fuzzy_effect(trip_dic, masters, center="median", strict=0, match=10):
                                 memship_par=strict,
                                 center=center)
                                 }
-        votes[p]=max(effects.iteritems(), key=operator.itemgetter(1))
+        votes[p]=max(effects.items(), key=operator.itemgetter(1))
     maximum=["any", 0]
     for p in votes:
         if votes[p][1] > maximum[1]:
