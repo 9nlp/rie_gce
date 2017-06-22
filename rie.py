@@ -3,7 +3,7 @@
 #/almac/ignacio/data/sts_all/split_dir/f_46081.splt^I0^Ibulb^Iis in^Iits own path^I1^I2^I2^I4^I4^I7^I1.000^Ieach bulb is in its own path^IDT NN VBZ IN PRP$ JJ NN^Ibulb^Ibe in^Iits own path
 #/almac/ignacio/data/sts_all/split_dir/f_58672.splt^I0^IU.N.^Iregulate^Iarms trade^I0^I1^I2^I3^I4^I6^I1.000^IU.N. to regulate global arms trade^INNP TO VB JJ NNS NN^IU.N.^Iregulate^Iarm trade
 #/almac/ignacio/data/sts_all/split_dir/f_73695.splt^I0^IIron Dome^Iis in^ICentral^I3^I5^I5^I6^I6^I7^I1.000^IIDF to deploy Iron Dome in Central Israel^INN TO VB NNP NNP IN NNP NNP^IIron Dome^Ibe in^ICentral
-import argparse
+
 from gensim.models.keyedvectors import KeyedVectors as vDB
 load_vectors=vDB.load_word2vec_format
 from numpy import mean, median, array, ndarray
