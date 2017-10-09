@@ -3,6 +3,7 @@ from rie import *
 from gensim.models.keyedvectors import KeyedVectors as vDB
 import argparse
 import logging
+from pdb import set_trace as st
 
 load_vectors=vDB.load_word2vec_format
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
@@ -59,16 +60,24 @@ if len(args.op) > 3:
         op=args.op
         word_vectors=None
 # compressor(triplets, op="avg", word_vectors=None, centroid_file=None)
-triplets={triplet: compressor(triplets[triplet], op=op,
+# set_compr(triplets, ["I","I","I"])
+sets=[]
+#for triplet in triplets:
+#    sets.append([set(" ".join([r[k] for r in triplets[triplet]]).split()) for k in range(3)])
+
+triplets={triplet: (compressor(triplets[triplet], op=op,
                               word_vectors=word_vectors,
-                              centroid_file=args.ris) for triplet in triplets}
+                              centroid_file=args.ris),
+                    [set(" ".join([r[k] for r in triplets[triplet]]).split()
+                            ) for k in range(3)] )
+                for triplet in triplets}
 if not args.out:
     for t in triplets:
-        print ("%s:\t%s\n" % (t, triplets[t]))
+        print ("%s:\t%s\t%s\n" % (t, triplets[t][0], triplets[t][1]))
 else:
     with open(args.out, "w") as f:
         for t in triplets:
-            f.write("%s:\t%s\n" % (t, triplets[t]))
+            f.write("%s:\t%s\t%s\n" % (t, triplets[t][0], triplets[t][1]))
 # 1.0	much	be paid on	insurance claim
 # 1.0	much	is	paid
 # 1.0	much	is	paid on insurance claim
